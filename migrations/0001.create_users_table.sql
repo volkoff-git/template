@@ -1,0 +1,1 @@
+CREATE TABLE `db`.`users` (`id` INT NOT NULL AUTO_INCREMENT , `login` VARCHAR(128) NOT NULL , `role` VARCHAR(64) NOT NULL , `name` VARCHAR(128) NULL , `enabled` TINYINT NOT NULL , `password` VARCHAR(255) NOT NULL , `token` VARCHAR(64) NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
