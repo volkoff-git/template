@@ -11,7 +11,7 @@ class App
 
     private string $table;
 
-    private ?array $user = null;
+    public ?array $user = null;
 
     protected ?mysqli $db;
 

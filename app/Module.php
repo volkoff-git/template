@@ -9,15 +9,16 @@ abstract class Module extends App
     public array $allowed_actions = [];
 
 
-    public function __construct($module, $action, $param)
+    public function __construct($params)
     {
         parent::__construct();
 
-        $this->module = $module;
-        $this->action = $action;
-        $this->param = $param;
+        $module = $this->module = $params['module'];
+        $action = $this->action = $params['action'];
+        $param = $this->param = $params['param'];
+        $user = $this->user = $params['user'];
 
-        if(in_array($action, $this->allowed_actions))
+        if(in_array($this->action, $this->allowed_actions))
         {
             if(is_callable(array($this, $action))){
                 $this->$action($param);

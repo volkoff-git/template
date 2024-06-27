@@ -5,15 +5,15 @@ class AdminModule extends Module
     public array $allowed_actions = ['index', 'foo'];
 
 
-    public function __construct($module, $action, $param)
+    public function __construct($params)
     {
-        parent::__construct($module, $action, $param);
+        parent::__construct($params);
 
     }
 
     protected function index($param): void
     {
-        $this->render('admin.index', ['foo' => $param]);
+        $this->renderPage('admin.index', ['foo' => $param]);
     }
 
     protected function foo(): void

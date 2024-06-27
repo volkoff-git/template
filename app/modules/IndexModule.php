@@ -5,9 +5,9 @@ class IndexModule extends Module
     public array $allowed_actions = ['index', 'template'];
 
 
-    public function __construct($module, $action, $param)
+    public function __construct($params)
     {
-        parent::__construct($module, $action, $param);
+        parent::__construct($params);
 
     }
 

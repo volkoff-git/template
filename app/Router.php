@@ -15,6 +15,7 @@ class Router extends App
 
      private function call(): void
      {
+
          if(!isset(LibAccess::$modules[$this->module]['module']))
          {
              echo 'ERROR Запрашиваемый модуль не найден'; die;
@@ -22,7 +23,13 @@ class Router extends App
          $call_module = LibAccess::$modules[$this->module]['module'];
          if(class_exists($call_module))
          {
-             $instance = new $call_module($this->module, $this->action, $this->param);
+             $instance = new $call_module([
+                 'module' => $this->module,
+                 'action' => $this->action,
+                 'param' => $this->param,
+                 'user' => $this->user
+
+             ]);
          }
          else
          {
@@ -40,18 +47,21 @@ class Router extends App
             header("Location: /auth/login");  die;
             //echo $result['error']; die;
         }
+        $this->user = $result['user'];
         return  $result['user'];
     }
 
 
     private function check_access(): void
     {
+
+
         if($this->module === 'auth')
         {
             return;
         }
-
         $user = $this->get_user();
+
         $access_list = LibAccess::$modules;
         if(!isset($access_list[$this->module]))
         {

@@ -3,9 +3,9 @@
 class AuthModule extends Module
 {
     public array $allowed_actions = ['login', 'index'];
-    public function __construct($module, $action, $param)
+    public function __construct($params)
     {
-        parent::__construct($module, $action, $param);
+        parent::__construct($params);
     }
 
     protected function index($param): void
@@ -15,6 +15,10 @@ class AuthModule extends Module
 
     protected function login($param): void
     {
+        if($this->user)
+        {
+            header("Location: /");
+        }
         $this->renderPage('auth.login', ['foo' => $param], 'guestLayout');
     }
 }

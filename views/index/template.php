@@ -1,1 +1,4 @@
-template
+<?php
+echo __DIR__;
+
+?>
