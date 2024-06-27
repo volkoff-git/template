@@ -2,7 +2,7 @@
 
 class IndexModule extends Module
 {
-    public array $allowed_actions = ['index'];
+    public array $allowed_actions = ['index', 'template'];
 
 
     public function __construct($module, $action, $param)
@@ -15,5 +15,10 @@ class IndexModule extends Module
     protected function index($param): void
     {
         $this->renderPage('index.index', ['foo' => $param]);
+    }
+
+    protected function template($param): void
+    {
+        $this->renderPage('index.template', [], 'templateLayout');
     }
 }
