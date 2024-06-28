@@ -86,6 +86,24 @@ class App
     }
 
 
+    protected function sanitise($string): string
+    {
+        return htmlentities($string, ENT_QUOTES, 'UTF-8');
+    }
+
+     protected function sanitise_all($arr): array
+     {
+        $payload = [];
+        foreach ($arr as $k => $i)
+        {
+            $payload[$k] = $this->sanitise($i);
+        }
+        return $payload;
+    }
+
+
+
+
 }
 
 /// класс auth начать забирать юзера из БД

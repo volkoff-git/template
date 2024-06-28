@@ -38,4 +38,9 @@ class Auth extends App
         unset($user['token']);
         return ['result' => 'success', 'user' => $user];
     }
+
+    public function login($data)
+    {
+
+    }
 }

@@ -16,7 +16,7 @@
 					</div>
 				</div>
 				<div class="form-footer">
-					<button type="submit" class="btn btn-primary w-100">Войти</button>
+					<button onclick="Auth.login(event)" type="submit" class="btn btn-primary w-100">Войти</button>
 				</div>
 			</form>
 		</div>

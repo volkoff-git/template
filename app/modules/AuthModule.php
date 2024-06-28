@@ -2,7 +2,7 @@
 
 class AuthModule extends Module
 {
-    public array $allowed_actions = ['login', 'index'];
+    public array $allowed_actions = ['login', 'index', 'performLogin'];
     public function __construct($params)
     {
         parent::__construct($params);
@@ -19,6 +19,13 @@ class AuthModule extends Module
         {
             header("Location: /");
         }
-        $this->renderPage('auth.login', ['foo' => $param], 'guestLayout');
+        $this->renderPage('auth.login', [], 'guestLayout');
+    }
+
+    protected function performLogin($param): void
+    {
+        $post = $this->sanitise_all($_POST);
+        $Auth = new Auth();
+        $Auth->login($post);
     }
 }
