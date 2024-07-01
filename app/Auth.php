@@ -3,8 +3,13 @@
 
 class Auth extends App
 {
-    protected string $table = 'users';
 
+    public ?string $table = 'users';
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function get_user(): array
     {
@@ -41,6 +46,38 @@ class Auth extends App
 
     public function login($data)
     {
+
+        if(!isset($data['login'])) {$this->f(['error' => 'Логин обязателен'], 'e');}
+        if(!isset($data['password'])) {$this->f(['error' => 'пароль обязателен'], 'e');}
+
+        if(strlen($data['login']) < 5) {$this->f(['error' => 'Логин короткий'], 'e');}
+        //if(strlen($data['password']) < 5) {$this->f(['error' => 'Пароль корочкий'], 'e');}
+
+        $login = $data['login'];
+        $result = $this->db_get("SELECT * FROM users WHERE login like '$login'");
+        if(!$result['data']){
+            $this->f(['error' => 'Неверный логин или пароль'], 'e');
+        }
+
+        $user = $result['data'][0];
+
+
+        if(!password_verify($data['password'], $user['password']))
+        {
+            $this->f(['error' => 'Неверный логин или пароль'], 'e');
+        }
+
+        if($user['enabled'] !== "1")
+        {
+            $this->f(['error' => 'Пользователь неактивен'], 'e');
+        }
+
+
+        $token = hash('sha256', time().'some serious gourmet shit');
+        $t = $this->update_field($user['id'], 'token', $token);
+
+        setcookie('token', $token, time() + 3600*24*7, '/');
+        $this->f();
 
     }
 }

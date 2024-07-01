@@ -7,12 +7,12 @@
 			<form action="./" method="get" autocomplete="off" novalidate>
 				<div class="mb-3">
 					<label class="form-label">Логин</label>
-					<input type="email" class="form-control" placeholder="Предоставляется менеджером" autocomplete="off">
+					<input id="auth_login" type="email" class="form-control" placeholder="Предоставляется менеджером" autocomplete="off">
 				</div>
 				<div class="mb-2">
 					<label class="form-label">Пароль</label>
 					<div class="input-group input-group-flat">
-						<input type="password" class="form-control"  placeholder="Ваш пароль"  autocomplete="off">
+						<input id="auth_password" type="password" class="form-control"  placeholder="Ваш пароль"  autocomplete="off">
 					</div>
 				</div>
 				<div class="form-footer">

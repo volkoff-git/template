@@ -9,7 +9,7 @@ class App
     private string $db_pass = DB_PASSWORD;
     private string $db_name = DB_NAME;
 
-    private string $table;
+    protected ?string $table = null;
 
     public ?array $user = null;
 
@@ -34,17 +34,29 @@ class App
     }
 
 
-    protected function getById($id): array
+    protected function getById($id): ?array
     {
         $q = "SELECT * FROM $this->table WHERE id = $id";
-        return $this->db_get($q);
+        $r = $this->db_get($q);
+        if($r['result'] === 'success'){
+            return  $r['data'][0]??null;
+        }
+        return null;
     }
 
     protected function db_get($query): array
     {
         $data = [];
 
-        $r = $this->db->query($query);
+        try {
+            $r = $this->db->query($query);
+        }
+        catch (Exception $e){
+            return [
+                'result' => "error", 'mysql_error' => $e->getMessage(),
+            ];
+        }
+
         if(!$r)
         {
             return [
@@ -64,7 +76,15 @@ class App
 
     protected function db_q($query): array
     {
-        $r = $this->db->query($query);
+        try {
+            $r = $this->db->query($query);
+        }
+        catch (Exception $e){
+
+            return [
+                'result' => "error", 'mysql_error' => $e->getMessage(),
+            ];
+        }
         if(!$r)
         {
             return [
@@ -76,6 +96,21 @@ class App
             return ['result' => 'success'];
         }
 
+    }
+
+
+    protected function update_field($id, $field, $value, $table = null): array
+    {
+        if(!$table)
+        {
+            $table = $this->table;
+        }
+        if(!$table)
+        {
+            return ['result' => 'error', 'error' => 'no table'];
+        }
+        $q = "UPDATE `$table` SET `$field` = '$value' WHERE `id` = $id;";
+        return $this->db_q($q);
     }
 
     protected function f($data = [], $result = 'success'): void

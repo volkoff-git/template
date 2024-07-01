@@ -14,7 +14,7 @@ let App = {
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Server error');
+                    throw new Error('Server error. ');
                 }
 
                 return response.json();
@@ -23,22 +23,35 @@ let App = {
             .then(data => {
                 if(data.result !== 'success')
                 {
-                    alert('error');
+                    alert(data.error);
                     return;
                 }
                 callback(data);
             })
             .catch(error => {
-                console.info('Server error', error);
+                console.info('Server error. Response not json', error);
             });
-    }
+    },
+    getFields: (fields, prefix = '') => {
+        let values = {};
+        fields.forEach(i => {
+            values[i] = (App.gId(`${prefix}${i}`)?.value || null) || null;
+        })
+        return values;
+    },
+    gId: id => document.getElementById(id)
 }
 
 
 let Auth = {
     login: e => {
         e.preventDefault();
-        App.send('/auth/performLogin', {'ff': '111'}, msg => console.log(msg))
+        let params = App.getFields(['login', 'password'], 'auth_');
+        if(!params['login']){ alert('Логин обязателен для заполнения'); return; }
+        if(!params['password']){ alert('пароль обязателен для заполнения'); return; }
+        App.send('/auth/performLogin', params, msg => {
+            window.location = '/';
+        })
     }
 }
 
