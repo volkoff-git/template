@@ -5,5 +5,6 @@
     <title>Empty page - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
     <link href="/dist/css/tabler.min.css" rel="stylesheet"/>
     <link href="/dist/css/demo.min.css" rel="stylesheet"/>
+    <link href="/css/css.css" rel="stylesheet"/>
 
 </head>

@@ -22,9 +22,19 @@
 				</div>
 			</div>
 		</footer>
+
+
+
+		<div class="toast-container" id="toast_container"></div>
+
+
 	</div>
 </div>
 
 <? require_once '_includes/bottom_scripts.php'; ?>
+
+
+
+
 </body>
 </html>

@@ -23,7 +23,7 @@ let App = {
             .then(data => {
                 if(data.result !== 'success')
                 {
-                    alert(data.error);
+                    App.toast(data.error);
                     return;
                 }
                 callback(data);
@@ -39,7 +39,24 @@ let App = {
         })
         return values;
     },
-    gId: id => document.getElementById(id)
+    gId: id => document.getElementById(id),
+    toast: (text, type = 'danger') => {
+
+
+        App.gId('toast_container').innerHTML += `
+<div class="toast mt-2 mb-0 show ${type==='danger'?'text-white':''} bg-${type}" role="alert" aria-live="assertive" aria-atomic="true"
+     data-bs-autohide="false" data-bs-toggle="toast" data-bs-animation="true">
+    <div class="toast-header">
+        <strong class="me-auto">Ошибка</strong><small></small>
+        <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        ${text}
+    </div>
+</div>
+        
+        `;
+    }
 }
 
 
@@ -47,8 +64,8 @@ let Auth = {
     login: e => {
         e.preventDefault();
         let params = App.getFields(['login', 'password'], 'auth_');
-        if(!params['login']){ alert('Логин обязателен для заполнения'); return; }
-        if(!params['password']){ alert('пароль обязателен для заполнения'); return; }
+        if(!params['login']){ App.toast('Логин обязателен для заполнения'); return; }
+        if(!params['password']){ App.toast('пароль обязателен для заполнения'); return; }
         App.send('/auth/performLogin', params, msg => {
             window.location = '/';
         })
