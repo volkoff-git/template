@@ -39,5 +39,8 @@
 </div>
 
 <? require_once '_includes/bottom_scripts.php'; ?>
+<?=$params['attach_js'] ?>
+
+
 </body>
 </html>

@@ -49,7 +49,18 @@ abstract class Module extends App
     public function renderPage($view, $params = [], $layout = 'mainLayout'): void
     {
         $content =  $this->renderFragment($view, $params);
-        echo $this->renderFragment($layout, ['content' => $content]);
+        echo $this->renderFragment($layout, [
+            'content' => $content,
+            'attach_js' => $this->attach($params['attach_js']??false)
+        ]);
+    }
+
+    private function attach($js_file = false)
+    {
+        if(!$js_file){
+            return '';
+        }
+        return "<script src='/js/$js_file.js'></script>";
     }
 
 

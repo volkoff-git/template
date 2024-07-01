@@ -13,11 +13,11 @@ class AdminModule extends Module
 
     protected function index($param): void
     {
-        $this->renderPage('admin.index', ['foo' => $param]);
+        $this->renderPage('admin.index', ['attach_js' => 'admin']);
     }
 
-    protected function foo(): void
+    protected function subpage(): void
     {
-        echo 'foo';
+        var_export($_POST);
     }
 }
