@@ -2,7 +2,8 @@
 
 class AdminModule extends Module
 {
-    public array $allowed_actions = ['index', 'foo'];
+    public array $allowed_actions = ['index', 'subpage', 'create_user'];
+    private array $allowed_subpages = ['userList', 'foo', 'bar'];
 
 
     public function __construct($params)
@@ -13,11 +14,33 @@ class AdminModule extends Module
 
     protected function index($param): void
     {
-        $this->renderPage('admin.index', ['attach_js' => 'admin']);
+        $this->renderPage('admin.index', ['attach_js' => 'admin', 'title' => 'Админка']);
+    }
+
+    protected function create_user()
+    {
+        // VAlidator->required(POST, ['login', 'pass'])
+        $post = $this->sanitise_all($_POST);
+        $this->f(['post' => $_POST]);
     }
 
     protected function subpage(): void
     {
-        var_export($_POST);
+        if(!isset($_POST['tab']))
+        {
+            $this->f(['error' => 'i can see you'], 'e');
+        }
+        if(in_array($_POST['tab'], $this->allowed_subpages))
+        {
+            $tab = $_POST['tab'];
+            $this->f(['html' => $this->renderFragment('admin._subpages.admin_'.$tab)]);
+        }
+        else
+        {
+            $this->f(['error' => 'subpage not found'], 'e');
+        }
+
     }
+
+
 }

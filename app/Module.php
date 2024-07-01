@@ -50,8 +50,10 @@ abstract class Module extends App
     {
         $content =  $this->renderFragment($view, $params);
         echo $this->renderFragment($layout, [
+            ...$params,
             'content' => $content,
             'attach_js' => $this->attach($params['attach_js']??false)
+
         ]);
     }
 

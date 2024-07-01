@@ -39,6 +39,10 @@ let App = {
         })
         return values;
     },
+    getSelect: id => {
+        let v = document.getElementById(id).value;
+        return v===''?null:v;
+    },
     gId: id => document.getElementById(id),
     toast: (text, type = 'danger') => {
 
