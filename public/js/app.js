@@ -3,7 +3,7 @@ let App = {
 
         const formData = new FormData();
         for (const key in params) {
-            if (Object.hasOwnProperty.call(params, key)) {
+            if (Object.hasOwnProperty.call(params, key) && params[key] !== null) {
                 formData.append(key, params[key]);
             }
         }

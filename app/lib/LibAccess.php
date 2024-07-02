@@ -9,4 +9,5 @@ class LibAccess
         'auth' => ['module' => 'AuthModule'],
         'user' => ['module' => 'UserModule'],
     ];
+
 }

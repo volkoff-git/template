@@ -20,8 +20,11 @@ class AdminModule extends Module
     protected function create_user()
     {
         // VAlidator->required(POST, ['login', 'pass'])
+
+        $v = new Validation();
         $post = $this->sanitise_all($_POST);
-        $this->f(['post' => $_POST]);
+        $v->validate('create_user', $post);
+
     }
 
     protected function subpage(): void
