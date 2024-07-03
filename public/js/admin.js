@@ -23,10 +23,17 @@ let Admin = {
     },
     add_new_user: e => {
         e.preventDefault();
-        let payload = App.getFields(['login', 'password'], 'newUser_');
+        let payload = App.getFields(['login', 'password', 'name'], 'newUser_');
         payload.role = App.getSelect('newUser_role');
         App.send('admin/create_user', payload, msg => {
-            //Admin.active_tab.click();
+            Admin.active_tab.click();
         })
+    },
+    user_edit: (e, id) => {
+        e.preventDefault();
+        App.send('/admin/show_edit_user_modal', {id}, msg => {
+            App.show_modal(msg.html);
+        })
+
     }
 }

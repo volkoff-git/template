@@ -23,7 +23,8 @@ let App = {
             .then(data => {
                 if(data.result !== 'success')
                 {
-                    App.toast(data.error);
+
+                    App.toast(data.error??'Ошибка запроса данных');
                     return;
                 }
                 callback(data);
@@ -60,6 +61,11 @@ let App = {
 </div>
         
         `;
+    },
+    show_modal: content => {
+        if (!content)alert('no content');
+        App.gId('mainModal_content').innerHTML = content;
+        App.gId('modalTrigger').click();
     }
 }
 

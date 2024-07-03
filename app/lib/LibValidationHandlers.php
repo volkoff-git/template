@@ -1,6 +1,6 @@
 <?php
 
-class LibValidationHandlers
+class LibValidationHandlers extends App
 {
     public array $data;
     public array $payload;
@@ -12,6 +12,7 @@ class LibValidationHandlers
         $this->payload['result'] = 'success';
         $this->data = $data;
         $this->current_fields_titles = $this->fields_titles[$cft];
+        parent::__construct();
     }
 
     public function required($field): bool
@@ -74,6 +75,27 @@ class LibValidationHandlers
     }
 
 
+
+    public function unique($field, $table, $col): void
+    {
+        $val = $this->data[$field];
+        $q = "SELECT * FROM `users` where login = '$val';";
+        $res = $this->db_get($q);
+        if($res['result'] !== 'success')
+        {
+            $this->payload['result'] = 'error';
+            $this->payload['errors'][$field] = "db issue #carla";
+            return;
+        }
+        if($res['data'])
+        {
+            $title = $this->_title($field);
+            $this->payload['result'] = 'error';
+            $this->payload['errors'][$field] = "Такой $title уже есть";
+        }
+
+
+    }
 
 
     private function _title($field)

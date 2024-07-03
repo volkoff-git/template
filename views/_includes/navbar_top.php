@@ -65,9 +65,8 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <a href="#" class="dropdown-item">Профиль сылка 1</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="./settings.html" class="dropdown-item">профиль ссылка 2</a>
+					<a href="#" class="dropdown-item">Профиль сылка 1</a>
+					<a href="./settings.html" class="dropdown-item">профиль ссылка 233</a>
 
                 </div>
             </div>

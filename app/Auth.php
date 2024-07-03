@@ -44,6 +44,25 @@ class Auth extends App
         return ['result' => 'success', 'user' => $user];
     }
 
+    public function create_user($data): void
+    {
+        $login = $data['login'];
+        $name = $data['name'];
+        $role = $data['role'];
+        $password = password_hash($data['password'], PASSWORD_DEFAULT);
+
+
+
+        $q = "INSERT INTO `users` (
+                     `login`, `role`, `name`, `enabled`, 
+                     `password`
+                ) VALUES (
+                           '$login', '$role', '$name', '1', 
+                          '$password')";
+
+        $this->db_q($q);
+    }
+
     public function login($data)
     {
 
