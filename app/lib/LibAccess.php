@@ -10,4 +10,11 @@ class LibAccess
         'user' => ['module' => 'UserModule'],
     ];
 
+
+
+    static array $roles = [
+      'user' => ['title' => 'Пользователь', 'assign' => true],
+      'manager' => ['title' => 'Менеджер', 'assign' => true],
+      'admin' => ['title' => 'Админ', 'assign' => false],
+    ];
 }

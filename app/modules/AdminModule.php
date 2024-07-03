@@ -3,7 +3,7 @@
 class AdminModule extends Module
 {
     public array $allowed_actions = [
-        'index', 'subpage', 'create_user', 'show_edit_user_modal'];
+        'index', 'subpage', 'create_user', 'edit_user', 'show_edit_user_modal'];
     private array $allowed_subpages = ['userList', 'foo', 'bar'];
 
 
@@ -30,6 +30,17 @@ class AdminModule extends Module
             $this->f();
         }
         else
+        {
+            $this->f(['error' => current($v->errors)], 'e');
+        }
+    }
+
+    protected function edit_user()
+    {
+        $v = new Validation();
+        $post = $this->sanitise_all($_POST);
+
+        if(!$v->validate('edit_user', $post))
         {
             $this->f(['error' => current($v->errors)], 'e');
         }

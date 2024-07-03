@@ -60,7 +60,7 @@ class LibValidationHandlers extends App
         {
             $title = $this->_title($field);
             $this->payload['result'] = 'error';
-            $this->payload['errors'][$field] = "Поле $title имеет должно быть не длиннее $len";
+            $this->payload['errors'][$field] = "Поле $title  должно быть не длиннее $len";
         }
     }
 
@@ -70,8 +70,26 @@ class LibValidationHandlers extends App
         {
             $title = $this->_title($field);
             $this->payload['result'] = 'error';
-            $this->payload['errors'][$field] = "Поле $title имеет должно быть не короче $len";
+            $this->payload['errors'][$field] = "Поле $title  должно быть не короче $len";
         }
+    }
+
+    public function int_val($field, $min = false, $max = false): void
+    {
+        $title = $this->_title($field);
+        $val = intval($this->data[$field]);
+        if ($min !== false && $val < $min)
+        {
+            $this->payload['result'] = 'error';
+            $this->payload['errors'][$field] = "Поле $title меньше $min";
+        }
+        if ($max !== false && $val > $max)
+        {
+            $this->payload['result'] = 'error';
+            $this->payload['errors'][$field] = "Поле $title больше $max";
+        }
+
+        // проверить начличие пароля, если есть - валидация
     }
 
 
@@ -109,6 +127,13 @@ class LibValidationHandlers extends App
         'create_user' => [
             'login' => 'Логин',
             'password' => 'Пароль',
+            'name' => 'Имя',
+            'role' => 'Статус',
+        ],
+        'edit_user' => [
+            'login' => 'Логин',
+            'password' => 'Пароль',
+            'name' => 'Имя',
             'role' => 'Статус',
         ]
     ];

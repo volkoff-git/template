@@ -11,30 +11,31 @@
 		<div class="col-lg-6">
 			<div class="mb-3">
 				<label class="form-label">Имя</label>
-				<input type="text" class="form-control" value="<?=$params['name']; ?>">
+				<input id="editUser_name" type="text" class="form-control" value="<?=$params['name']; ?>">
 			</div>
 		</div>
 
 		<div class="col-lg-6">
 			<div class="mb-3">
 				<label class="form-label">Логин</label>
-				<input type="text" class="form-control" value="<?=$params['login']; ?>">
+				<input id="editUser_login" type="text" class="form-control" value="<?=$params['login']; ?>">
 			</div>
 		</div>
 
 		<div class="col-lg-6">
 			<div class="mb-3">
 				<label class="form-label">Пароль</label>
-				<input type="text" class="form-control">
+				<input id="editUser_password" type="text" class="form-control">
 			</div>
 		</div>
 
 		<div class="col-lg-6">
 			<div class="mb-3">
 				<label class="form-label">Роль</label>
-				<select class="form-select" >
-					<option selected value="user">Пользователь</option>
-					<option value="manager">Менеджер</option>
+				<select id="editUser_role" class="form-select" >
+					<? foreach (LibAccess::$roles as $key => $role): ?>
+						<option <? if($params['role'] == $key) echo 'selected'; ?> value="user"><?=$role['title'];?></option>
+					<? endforeach; ?>
 				</select>
 			</div>
 		</div>
@@ -44,6 +45,7 @@
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+    <button type="button" class="btn me-auto" data-bs-dismiss="modal">Отмена</button>
+    <button type="button" onclick="Admin.user_edit_save(event, <?=$params['id']; ?>)"
+			class="btn btn-primary">Сохранить</button>
 </div>

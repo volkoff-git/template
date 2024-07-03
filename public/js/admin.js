@@ -34,6 +34,14 @@ let Admin = {
         App.send('/admin/show_edit_user_modal', {id}, msg => {
             App.show_modal(msg.html);
         })
-
+    },
+    user_edit_save: (e, id) => {
+        e.preventDefault();
+        let payload = App.getFields(['login', 'password', 'name'], 'editUser_');
+        payload.role = App.getSelect('editUser_role');
+        payload.id = id;
+        App.send('admin/edit_user', payload, msg => {
+            Admin.active_tab.click();
+        })
     }
 }

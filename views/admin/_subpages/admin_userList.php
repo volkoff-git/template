@@ -17,8 +17,12 @@
 	<div class="col-md">
 		<div class="form-label">Роль</div>
 		<select class="form-select" id="newUser_role">
-			<option selected value="user">Пользователь</option>
-			<option value="manager">Менеджер</option>
+
+            <? foreach (LibAccess::$roles as $key => $role): ?>
+				<option value="<?=$key; ?>"><?=$role['title'];?></option>
+            <? endforeach; ?>
+
+
 		</select>
 	</div>
 	<div class="col-md-auto">

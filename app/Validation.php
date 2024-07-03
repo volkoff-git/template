@@ -5,6 +5,7 @@ class Validation extends App
 
     public array $validated_data;
     public array $errors;
+    private LibValidationHandlers $lvh;
 
 
     public function __construct()
@@ -12,7 +13,7 @@ class Validation extends App
         parent::__construct();
     }
 
-    private array $available_rules = ['create_user'];
+    private array $available_rules = ['create_user', 'edit_user'];
 
     public function validate($rule, $data)
     {
@@ -22,11 +23,13 @@ class Validation extends App
         }
 
 
+        $this->lvh = new LibValidationHandlers($data, $rule);
 
         switch ($rule) {
             case 'create_user':
-                return $this->_rule_create_user($data);
-                break;
+                return $this->_rule_create_user();
+            case 'edit_user':
+                return $this->_rule_edit_user();
             default:
                 $this->f(['no rule'], 'e');
         }
@@ -34,44 +37,69 @@ class Validation extends App
     }
 
 
-    private function _rule_create_user($data) :bool
+
+    private function _rule_edit_user() :bool
+    {
+        if($this->lvh->required('id'))
+        {
+            $this->lvh->int_val('id', 0);
+        }
+        if($this->lvh->required('login'))
+        {
+            $this->lvh->max_len('login', 16);
+            $this->lvh->min_len('login', 5);
+        }
+        if($this->lvh->required('name'))
+        {
+            $this->lvh->max_len('name', 100);
+            $this->lvh->min_len('name', 3);
+        }
+        $this->lvh->white_list('role', ['user', 'manager', 'admin'], 'user');
+
+        return $this->lvh_result();
+
+    }
+
+
+    private function _rule_create_user() :bool
     {
 
-        $lvh = new LibValidationHandlers($data, 'create_user');
-        if($lvh->required('login'))
+        if($this->lvh->required('login'))
         {
-            $lvh->max_len('login', 16);
-            $lvh->min_len('login', 5);
-            $lvh->unique('login', 'users', 'login');
+            $this->lvh->max_len('login', 16);
+            $this->lvh->min_len('login', 5);
+            $this->lvh->unique('login', 'users', 'login');
         }
-        if($lvh->required('password'))
+        if($this->lvh->required('password'))
         {
-            $lvh->max_len('password', 32);
-            $lvh->min_len('password', 8);
+            $this->lvh->max_len('password', 32);
+            $this->lvh->min_len('password', 8);
         }
-        if($lvh->required('name'))
+        if($this->lvh->required('name'))
         {
-            $lvh->max_len('name', 100);
-            $lvh->min_len('name', 3);
+            $this->lvh->max_len('name', 100);
+            $this->lvh->min_len('name', 3);
         }
-       // $lvh->default('role', 'user');
-        $lvh->white_list('role', ['user', 'manager'], 'user');
 
+        $this->lvh->white_list('role', ['user', 'manager', 'admin'], 'user');
 
-//        var_export($lvh->payload);
-//        var_export($lvh->data);
-        if($lvh->payload['result'] === 'success')
+        return $this->lvh_result();
+
+    }
+
+    private function lvh_result(): bool
+    {
+        if($this->lvh->payload['result'] === 'success')
         {
-            $this->validated_data = $lvh->data;
+            $this->validated_data = $this->lvh->data;
             return true;
         }
         else
         {
-            $this->validated_data = $lvh->data;
-            $this->errors = $lvh->payload['errors'];
+            $this->validated_data = $this->lvh->data;
+            $this->errors = $this->lvh->payload['errors'];
             return false;
         }
-
     }
 
 
