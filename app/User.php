@@ -18,7 +18,7 @@ class User extends App
     }
 
 
-    public function edit_user($data)
+    public function edit_user($data): void
     {
         $id = $data['id'];
         $login = $data['login'];
@@ -39,5 +39,6 @@ class User extends App
                     $q_password
                WHERE `users`.`id` = $id";
         $this->db_q($q);
+
     }
 }

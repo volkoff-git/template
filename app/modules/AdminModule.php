@@ -27,6 +27,7 @@ class AdminModule extends Module
             $data = $v->validated_data;
             $Auth = new Auth();
             $Auth->create_user($data);
+            (new Log())->user($this->user['id'], 'create_user', 'Создал пользователя '.$data['login'], $data);
             $this->f();
         }
         else
@@ -54,6 +55,8 @@ class AdminModule extends Module
 
         $U = new User();
         $U->edit_user($data);
+        (new Log())->user($this->user['id'], 'edit_user', 'Изменил пользователя '.$data['id'], $data);
+
         $this->f();
 
     }
@@ -102,6 +105,8 @@ class AdminModule extends Module
         }
 
         $U->update_field($user['id'], 'enabled', $state);
+        (new Log())->user($this->user['id'], 'create_user', 'Переключил пользователя',
+            ['user' => $user['id'], 'state' =>$state]);
         $this->f();
 
     }
