@@ -18,7 +18,8 @@ let Admin = {
         Admin.active_tab = e.target;
 
         App.send('/admin/subpage', {tab}, msg => {
-            App.gId('admin_subpage_container').innerHTML = msg.html
+            App.gId('admin_subpage_container').innerHTML = msg.html;
+            App.reinit_tooltip();
         })
     },
     add_new_user: e => {

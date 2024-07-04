@@ -66,6 +66,13 @@ let App = {
         if (!content)alert('no content');
         App.gId('mainModal_content').innerHTML = content;
         App.gId('modalTrigger').click();
+    },
+    reinit_tooltip: () => {
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(element => {
+            new bootstrap.Tooltip(element, {
+                delay: { show: 500, hide: 100 }
+            });
+        });
     }
 }
 
