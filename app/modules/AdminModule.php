@@ -3,7 +3,7 @@
 class AdminModule extends Module
 {
     public array $allowed_actions = [
-        'index', 'subpage', 'create_user', 'edit_user', 'show_edit_user_modal'];
+        'index', 'subpage', 'create_user', 'edit_user', 'toggle_user', 'show_edit_user_modal'];
     private array $allowed_subpages = ['userList', 'foo', 'bar'];
 
 
@@ -18,7 +18,7 @@ class AdminModule extends Module
         $this->renderPage('admin.index', ['attach_js' => 'admin', 'title' => 'Админка']);
     }
 
-    protected function create_user()
+    protected function create_user(): void
     {
         $v = new Validation();
         $post = $this->sanitise_all($_POST);
@@ -35,16 +35,26 @@ class AdminModule extends Module
         }
     }
 
-    protected function edit_user()
+    protected function edit_user(): void
     {
+
+
         $v = new Validation();
         $post = $this->sanitise_all($_POST);
+        $post['current_user_id'] = $this->user['id'];
 
         if(!$v->validate('edit_user', $post))
         {
             $this->f(['error' => current($v->errors)], 'e');
         }
 
+        $data = $v->validated_data;
+
+
+
+        $U = new User();
+        $U->edit_user($data);
+        $this->f();
 
     }
 
@@ -70,7 +80,33 @@ class AdminModule extends Module
 
     }
 
-    protected function show_edit_user_modal()
+    protected function toggle_user(): void
+    {
+        $id = 0;
+        if(!isset($_POST['id']) || intval($id = $_POST['id']) == 0){
+            $this->f(['error' => 'no id'], 'e');
+        }
+
+        $U = new User();
+        $user = $U->getById($id);
+
+        if($user['id'] == 1)
+        {
+            $this->f(['error' => 'Нельзя деактивировать суперадмина'], 'e');
+        }
+
+        $state = 0;
+        if($user['enabled'] == 0)
+        {
+            $state = 1;
+        }
+
+        $U->update_field($user['id'], 'enabled', $state);
+        $this->f();
+
+    }
+
+    protected function show_edit_user_modal(): void
     {
         $id = 0;
         if(!isset($_POST['id']) || intval($id = $_POST['id']) == 0){

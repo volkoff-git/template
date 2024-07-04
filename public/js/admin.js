@@ -35,6 +35,12 @@ let Admin = {
             App.show_modal(msg.html);
         })
     },
+    user_toggle_activate: (e, id) => {
+        e.preventDefault();
+        App.send('admin/toggle_user', {id}, msg => {
+            Admin.active_tab.click();
+        })
+    },
     user_edit_save: (e, id) => {
         e.preventDefault();
         let payload = App.getFields(['login', 'password', 'name'], 'editUser_');
@@ -42,6 +48,7 @@ let Admin = {
         payload.id = id;
         App.send('admin/edit_user', payload, msg => {
             Admin.active_tab.click();
+            App.gId('close_modal').click();
         })
     }
 }

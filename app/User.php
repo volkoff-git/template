@@ -16,4 +16,28 @@ class User extends App
         $r = $this->db_get($q);
         return $r['data'];
     }
+
+
+    public function edit_user($data)
+    {
+        $id = $data['id'];
+        $login = $data['login'];
+        $role = $data['role'];
+        $name = $data['name'];
+
+        $q_password = '';
+        if(isset($data['password']))
+        {
+            $password = password_hash($data['password'], PASSWORD_DEFAULT);
+            $q_password = "  ,  `password` = '$password' , `token` = NULL";
+        }
+
+        $q = "UPDATE `users` SET 
+                   `login` = '$login', 
+                   `role` = '$role', 
+                   `name` = '$name'
+                    $q_password
+               WHERE `users`.`id` = $id";
+        $this->db_q($q);
+    }
 }

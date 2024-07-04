@@ -62,10 +62,13 @@
 							<td class="text-secondary"><?=$u['id'];?></td>
 							<td><?=$login;?></td>
 							<td class="text-secondary"><?=$u['name'];?></td>
-							<td class="text-secondary"><?=$u['role'];?></td>
+							<td class="text-secondary"><?=LibAccess::$roles[$u['role']]['title'];?></td>
 							<td>
-								<? if($u['id'] != 1): ?>
+								<? if($u['id'] != 1 || $this->user['id'] == 1): ?>
 									<a onclick="Admin.user_edit(event, <?=$u['id'];?>)" href="#">Изменить</a>
+                                	<? if($u['id'] != 1): ?>
+										<a onclick="Admin.user_toggle_activate(event, <?=$u['id'];?>)" href="#">Вкл/Выкл</a>
+                                    <? endif; ?>
 								<? endif; ?>
 
 							</td>

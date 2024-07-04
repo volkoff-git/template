@@ -88,10 +88,25 @@ class LibValidationHandlers extends App
             $this->payload['result'] = 'error';
             $this->payload['errors'][$field] = "Поле $title больше $max";
         }
+        $this->data[$field] = $val;
 
-        // проверить начличие пароля, если есть - валидация
     }
 
+
+    public function record_exists($field, $table): bool
+    {
+        $id = $this->data[$field];
+        $q = "SELECT id FROM $table WHERE id = $id";
+
+        $r = $this->db_get($q);
+        if(!$r['data'])
+        {
+            $this->payload['result'] = 'error';
+            $this->payload['errors'][$field] = "Запись не найдена";
+            return false;
+        }
+        return true;
+    }
 
 
     public function unique($field, $table, $col): void
@@ -120,6 +135,8 @@ class LibValidationHandlers extends App
     {
         return $this->current_fields_titles[$field] ?? $field;
     }
+
+
 
 
 

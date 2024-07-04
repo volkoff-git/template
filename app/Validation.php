@@ -40,9 +40,22 @@ class Validation extends App
 
     private function _rule_edit_user() :bool
     {
+
         if($this->lvh->required('id'))
         {
-            $this->lvh->int_val('id', 0);
+            $this->lvh->int_val('id', 1);
+            if($this->lvh->data['id'] == 1 && $this->lvh->data['current_user_id'] != 1)
+            {
+                $this->lvh->payload['result'] = 'error';
+                $this->lvh->payload['errors']['id'] = 'За вами выехали';
+                return $this->lvh_result();
+            }
+
+            if(!$this->lvh->record_exists('id', 'users'))
+            {
+                return $this->lvh_result();
+            }
+
         }
         if($this->lvh->required('login'))
         {
@@ -55,6 +68,13 @@ class Validation extends App
             $this->lvh->min_len('name', 3);
         }
         $this->lvh->white_list('role', ['user', 'manager', 'admin'], 'user');
+
+        if(isset($this->lvh->data['password']))
+        {
+            $this->lvh->max_len('password', 32);
+            $this->lvh->min_len('password', 8);
+        }
+
 
         return $this->lvh_result();
 
@@ -89,14 +109,13 @@ class Validation extends App
 
     private function lvh_result(): bool
     {
+        $this->validated_data = $this->lvh->data;
         if($this->lvh->payload['result'] === 'success')
         {
-            $this->validated_data = $this->lvh->data;
             return true;
         }
         else
         {
-            $this->validated_data = $this->lvh->data;
             $this->errors = $this->lvh->payload['errors'];
             return false;
         }

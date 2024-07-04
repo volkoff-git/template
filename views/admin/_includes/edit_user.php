@@ -34,7 +34,7 @@
 				<label class="form-label">Роль</label>
 				<select id="editUser_role" class="form-select" >
 					<? foreach (LibAccess::$roles as $key => $role): ?>
-						<option <? if($params['role'] == $key) echo 'selected'; ?> value="user"><?=$role['title'];?></option>
+						<option <? if($params['role'] == $key) echo 'selected'; ?> value="<?=$key; ?>"><?=$role['title'];?></option>
 					<? endforeach; ?>
 				</select>
 			</div>
@@ -45,7 +45,7 @@
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn me-auto" data-bs-dismiss="modal">Отмена</button>
+    <button type="button" id="close_modal" class="btn me-auto" data-bs-dismiss="modal">Отмена</button>
     <button type="button" onclick="Admin.user_edit_save(event, <?=$params['id']; ?>)"
 			class="btn btn-primary">Сохранить</button>
 </div>
