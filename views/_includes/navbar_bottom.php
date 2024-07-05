@@ -5,13 +5,13 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="/" >
-							<?=LibIcons::i('home');?><span class="nav-link-title">Лиды</span>
+							<?=LibIcons::i('home', 'nav-link-icon');?><span class="nav-link-title">Лиды</span>
                         </a>
                     </li>
 
 					<? if($this->user['role'] === 'admin'): ?>
 						<a class="nav-link" href="/admin" >
-                            <?=LibIcons::i('gear');?><span class="nav-link-title">Админка</span>
+                            <?=LibIcons::i('gear', 'nav-link-icon');?><span class="nav-link-title">Админка</span>
 						</a>
 					<? endif; ?>
 
