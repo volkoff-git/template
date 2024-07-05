@@ -15,7 +15,7 @@ class ApiModule extends App
 
 
         $this->get_data();
-        (new Log())->api($this->rd);
+        (new Log())->api($this->rd['data']);
         $this->check_access();
         $this->run($params);
     }
