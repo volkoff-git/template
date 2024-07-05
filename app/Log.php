@@ -17,7 +17,7 @@ class Log extends App
         }
         $q = "INSERT INTO `log_users` (`id_user`, `alias`, `text`, `created_at`, `data`
                 ) VALUES (
-             '$user_id', '$alias', '$text', '2024-07-04 16:19:23.000000', $data_db)";
+             '$user_id', '$alias', '$text', now(), $data_db)";
         $this->db_q($q);
     }
 
