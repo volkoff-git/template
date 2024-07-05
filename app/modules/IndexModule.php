@@ -14,7 +14,8 @@ class IndexModule extends Module
 
     protected function index($param): void
     {
-        $this->renderPage('index.index', ['foo' => $param]);
+        header("Location: /lead");  die;
+        //$this->renderPage('index.index', ['foo' => $param]);
     }
 
     protected function template($param): void

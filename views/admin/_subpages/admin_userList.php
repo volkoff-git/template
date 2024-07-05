@@ -67,7 +67,9 @@
 								<? if($u['id'] != 1 || $this->user['id'] == 1): ?>
 									<a onclick="Admin.user_edit(event, <?=$u['id'];?>)" href="#">Изменить</a>
                                 	<? if($u['id'] != 1): ?>
-										<a title="Активировать/деактивировать" data-bs-toggle="tooltip" data-bs-placement="top" onclick="Admin.user_toggle_activate(event, <?=$u['id'];?>)" href="#">Вкл/Выкл</a>
+										<a title="Активировать/деактивировать" data-bs-toggle="tooltip" data-bs-placement="top" onclick="Admin.user_toggle_activate(event, <?=$u['id'];?>)" href="#">
+											<?=LibIcons::i('power', 'text-red'); ?>
+										</a>
                                     <? endif; ?>
 								<? endif; ?>
 
