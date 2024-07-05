@@ -25,7 +25,7 @@ class ApiModule extends App
     {
         if(!isset($params['action']) || !in_array($params['action'], $this->available_actions))
         {
-            $this->f(['error' => 'no action'], 'e');
+            $this->e('no action');
         }
         $a = '_'.$params['action'];
         if(is_callable(array($this, $a))){
@@ -33,14 +33,14 @@ class ApiModule extends App
             $this->$a();
         }
         else{
-            $this->f(['error' => 'no call action'], 'e');
+            $this->e('no call action');
         }
     }
 
 
     private function check_access(): void
     {
-        if(!isset($this->rd['token'])) {$this->f(['error' => 'no auth key'], 'e');}
+        if(!isset($this->rd['token'])) {$this->e('no auth key');}
         if(mb_strlen($this->rd['token']) !== 64) {$this->f(['error' => 'no auth key'], 'e');}
         if($this->rd['token'] !== $this->token)
         {

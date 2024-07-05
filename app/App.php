@@ -120,6 +120,11 @@ class App
         die;
     }
 
+    protected function e($error): void
+    {
+        echo json_encode(['result' => 'error', 'error' => $error], 246); die;
+    }
+
 
     protected function sanitise($string): string
     {
