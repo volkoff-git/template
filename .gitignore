@@ -1,3 +1,4 @@
 .idea/*
 app/config.php
 /**/node_modules
+storage/**/*.log

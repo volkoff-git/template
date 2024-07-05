@@ -56,7 +56,7 @@ class Router extends App
     {
 
 
-        if($this->module === 'auth')
+        if($this->module === 'auth' || $this->module === 'api')
         {
             return;
         }
