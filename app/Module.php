@@ -62,7 +62,7 @@ abstract class Module extends App
         if(!$js_file){
             return '';
         }
-        return "<script src='/js/$js_file.js'></script>";
+        return "<script defer src='/js/$js_file.js'></script>";
     }
 
 

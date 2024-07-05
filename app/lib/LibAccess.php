@@ -8,6 +8,7 @@ class LibAccess
         'index' => ['module' => 'IndexModule'],
         'auth' => ['module' => 'AuthModule'],
         'user' => ['module' => 'UserModule'],
+        'lead' => ['module' => 'LeadModule'],
     ];
 
 
