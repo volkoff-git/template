@@ -52,17 +52,23 @@ abstract class Module extends App
         echo $this->renderFragment($layout, [
             ...$params,
             'content' => $content,
-            'attach_js' => $this->attach($params['attach_js']??false)
+            'attach_js' => $this->attach()
 
         ]);
     }
 
-    private function attach($js_file = false)
+    private function attach()
     {
-        if(!$js_file){
+
+        if(file_exists(__DIR__.'/../public/js/'.$this->module.'.js'))
+        {
+            return "<script defer src='/js/$this->module.js'></script>";
+        }
+        else
+        {
             return '';
         }
-        return "<script defer src='/js/$js_file.js'></script>";
+
     }
 
 

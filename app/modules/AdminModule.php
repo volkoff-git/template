@@ -16,7 +16,7 @@ class AdminModule extends Module
     protected function index($param): void
     {
         $this->renderPage('admin.index',
-            ['attach_js' => 'admin', 'title' => 'Админка']);
+            [ 'title' => 'Админка']);
     }
 
     protected function create_user(): void
