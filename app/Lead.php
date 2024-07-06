@@ -63,6 +63,11 @@ class Lead extends App
             $this->e('ERROR DELTA#1023');
         }
 
+
+        // todo сгенерировать show_at
+        // todo сгенерировать history
+        // todo возвращать lid
+
         return ['result' => 'success', 'id' => 666];
     }
 }
