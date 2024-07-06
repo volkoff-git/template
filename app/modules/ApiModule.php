@@ -6,7 +6,7 @@ class ApiModule extends App
     private array $rd;
     private string $token = 'api_EXj0khkjtuddao9VdKWZKGjJjcF87Jbk7y1JseDrjMW1cM0BD0EmXHwB5nyX';
 
-    private array $available_actions = ['ping'];
+    private array $available_actions = ['ping', 'add_lead'];
 
     public function __construct($params)
     {
@@ -60,11 +60,17 @@ class ApiModule extends App
     }
 
 
+    private function _add_lead(): void
+    {
+        $L = new Lead();
+        $L->add($this->rd);
+    }
+
 
 
 
     private function _ping(): void
     {
-       var_export($this->rd);
+       $this->f(['data' => 'pong']);
     }
 }

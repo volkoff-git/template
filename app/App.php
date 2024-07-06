@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 require_once 'config.php';
 
 class App
@@ -113,14 +115,13 @@ class App
         return $this->db_q($q);
     }
 
-    protected function f($data = [], $result = 'success'): void
+    #[NoReturn] protected function f($data = [], $result = 'success'): void
     {
         $data['result'] = $result == 'success'?'success':'error';
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
-        die;
+        echo json_encode($data, JSON_UNESCAPED_UNICODE); die;
     }
 
-    protected function e($error): void
+    #[NoReturn] protected function e($error): void
     {
         echo json_encode(['result' => 'error', 'error' => $error], 246); die;
     }
@@ -136,11 +137,43 @@ class App
         $payload = [];
         foreach ($arr as $k => $i)
         {
-            $payload[$k] = $this->sanitise($i);
+            if(is_array($i))
+            {
+                $payload[$k] = $this->sanitise_all($i);
+            }
+            elseif ($i)
+            {
+                $payload[$k] = $this->sanitise($i);
+            }
+            else
+            {
+                $payload[$k] = null;
+            }
+
         }
         return $payload;
     }
 
+
+    protected function make_set_string($data): string
+    {
+        // INSERT INTO sale SET store_id=1, fruit_id=1, price=89, count=3;
+        $set = '';
+
+        $len = count($data);
+        $count = 0;
+        foreach ($data as $k => $d) {
+            $count++;
+            $v = 'NULL';
+            if($d) {$v = "'$d'";}
+            $set .= " $k=$v  ";
+            if($count < $len)
+            {
+                $set .= ', ';
+            }
+        }
+        return $set;
+    }
 
 
 

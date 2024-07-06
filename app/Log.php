@@ -22,6 +22,17 @@ class Log extends App
     }
 
 
+    public function error($log_data, $separator = "\n\n"): void
+    {
+        $log_data = json_encode($log_data, 256);
+        $file = "error/".date('Y-m-d').".log";
+        $d = date('d.m.Y H:i:s');
+        $log_uri = __DIR__ . "/../storage/log/$file";
+        $data = "$d\n".$log_data.$separator;
+        file_put_contents($log_uri, $data, FILE_APPEND);
+    }
+
+
     public function api($log_data, $separator = "\n\n"): void
     {
         $log_data = json_encode($log_data, 256);
