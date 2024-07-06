@@ -12,8 +12,8 @@ class Lead extends App
 
     /**
      * phone*
-     * stage
-     * source
+     * stage def: selling
+     * source def: 1
      */
     public function add($params): array
     {
@@ -55,7 +55,7 @@ class Lead extends App
         if($r['result'] != 'success')
         {
             (new Log())->error([
-                'e' => 'Ошибка при добавлении лида',
+                'e' => 'Ошибка при добавлении лида Lead.add',
                 'params' => $params,
                 'error' => $r['mysql_error'],
                 'sql_params' => $sql_params,
