@@ -3,7 +3,7 @@
 class AdminModule extends Module
 {
     public array $allowed_actions = [
-        'index', 'subpage', 'create_user', 'edit_user', 'toggle_user', 'show_edit_user_modal'];
+        'index', 'subpage', 'create_user', 'edit_user', 'toggle_user', 'show_edit_user_modal', 'toggle_user_stage'];
     private array $allowed_subpages = ['userList', 'foo', 'bar'];
 
 
@@ -74,7 +74,9 @@ class AdminModule extends Module
             $U = new User();
             $users = $U->get_all();
             $this->f([
-                'html' => $this->renderFragment('admin._subpages.admin_'.$tab, ['users' => $users]),
+                'html' => $this->renderFragment('admin._subpages.admin_'.$tab, [
+                    'users' => $users
+                ]),
             ]);
         }
         else
@@ -82,6 +84,60 @@ class AdminModule extends Module
             $this->f(['error' => 'subpage not found'], 'e');
         }
 
+    }
+
+    protected function get_user_stages($id_user): array
+    {
+        $q = "SELECT * FROM `users_stages` WHERE id_user = $id_user";
+        $r = $this->db_get($q);
+
+        $payload = [];
+        foreach ($r['data'] as $i)
+        {
+            $payload[] = $i['stage'];
+        }
+        return $payload;
+    }
+
+    /* Переключение видиным групп для юзеров в админке*/
+    protected function toggle_user_stage():void
+    {
+        if(!isset($_POST['user_id']) || intval($id_user = $_POST['user_id']) == 0){
+            $this->f(['error' => 'user_id'], 'e');
+        }
+
+        $action = 'off';
+        if(isset($_POST['action']) && $_POST['action'] == 'on') { $action = 'on'; }
+
+        if(!isset($_POST['stage']) || !isset(LibLeads::$stages[$_POST['stage']])){
+            $this->f(['error' => 'no stage'], 'e');
+        }
+
+        $stage = $_POST['stage'];
+
+        $q = "SELECT * FROM `users_stages` WHERE id_user = $id_user AND stage like '$stage'";
+        $current_record = $this->db_get($q);
+        $record_exists = !empty($current_record['data']);
+
+        if($action == 'on')
+        {
+            if(!$record_exists)
+            {
+                $q = "INSERT INTO `users_stages` ( `id_user`, `stage`) VALUES ( '$id_user', '$stage')";
+                $this->db_q($q);
+            }
+
+        }
+        else
+        {
+            if($record_exists)
+            {
+                $id_record = $current_record['data'][0]['id'];
+                $q =  "DELETE FROM users_stages WHERE `users_stages`.`id` = $id_record";
+                $this->db_q($q);
+            }
+        }
+        $this->f();
     }
 
     protected function toggle_user(): void

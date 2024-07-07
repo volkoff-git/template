@@ -51,5 +51,20 @@ let Admin = {
             Admin.active_tab.click();
             App.gId('close_modal').click();
         })
+    },
+    toggle_user_stage: (user_id, event, stage) => {
+        let action = 'on';
+        let badge = event.target;
+        if(badge.classList.contains('bg-blue')) {
+            action = 'off';
+
+            badge.classList.add('badge-outline', 'text-blue');
+            badge.classList.remove('bg-blue', 'text-blue-fg');
+        }
+        else {
+            badge.classList.remove('badge-outline', 'text-blue');
+            badge.classList.add('bg-blue', 'text-blue-fg');
+        }
+        App.send('/admin/toggle_user_stage', {action, user_id, stage}, msg => {})
     }
 }

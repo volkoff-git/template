@@ -21,3 +21,6 @@ ALTER TABLE `leads` CHANGE `lash_hist_id` `last_event_id` INT(11) NULL DEFAULT N
 ALTER TABLE `leads` ADD `created_by` INT NOT NULL AFTER `closed_at`;
 
 CREATE TABLE `lead_events` (`id` INT NOT NULL AUTO_INCREMENT , `id_lead` INT NOT NULL , `id_user` INT NOT NULL , `alias` VARCHAR(16) NOT NULL , `show_at` DATETIME NULL , `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , `reject_reason` INT NULL , `data` JSON NULL , PRIMARY KEY (`id`), INDEX (`id_lead`)) ENGINE = InnoDB;
+
+
+CREATE TABLE `users_stages` (`id` INT NOT NULL AUTO_INCREMENT , `id_user` INT NOT NULL , `stage` VARCHAR(32) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

@@ -6,6 +6,8 @@
 </div>
 <div class="modal-body">
 
+	<? $user_stages = $this->get_user_stages($params['id']); ?>
+
 
 	<div class="row">
 		<div class="col-lg-6">
@@ -37,6 +39,35 @@
 						<option <? if($params['role'] == $key) echo 'selected'; ?> value="<?=$key; ?>"><?=$role['title'];?></option>
 					<? endforeach; ?>
 				</select>
+			</div>
+		</div>
+
+
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-body">
+					<h4>Видит лидов:</h4>
+					<div class="badges-list">
+						<? foreach (LibLeads::$stages as $key => $stage): ?>
+                            <?
+                            $badge_class = 'badge-outline text-blue';
+                            if(in_array($key, $user_stages)) {
+                                $badge_class = 'bg-blue text-blue-fg';
+                            }
+                            ?>
+
+							<span onclick="Admin.toggle_user_stage(<?=$params['id'];?> ,  event , '<?=$key; ?>')"
+
+
+
+								  class="badge <?=$badge_class; ?>">
+								<?=$stage['title'];?>
+							</span>
+						<? endforeach; ?>
+
+					</div>
+				</div>
+
 			</div>
 		</div>
 
