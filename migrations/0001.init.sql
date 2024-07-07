@@ -17,3 +17,7 @@ CREATE TABLE `log_users` (`id` INT NOT NULL AUTO_INCREMENT , `id_user` INT NOT N
 CREATE TABLE `leads` (`id` INT NOT NULL AUTO_INCREMENT , `id_user` INT NOT NULL , `phone` VARCHAR(10) NOT NULL , `name` VARCHAR(128) NULL , `name_last` VARCHAR(32) NULL , `name_middle` VARCHAR(32) NULL , `stage` VARCHAR(16) NOT NULL , `source` INT NOT NULL , `priority` INT NOT NULL , `show_at` DATETIME NULL , `created_at` DATETIME NOT NULL , `closed_at` DATETIME NULL , `lash_hist_id` INT NULL , `guarantor_for` INT NULL , `referral_for` INT NULL , PRIMARY KEY (`id`), INDEX (`id_user`), INDEX (`phone`), INDEX (`stage`)) ENGINE = InnoDB;
 ALTER TABLE `leads` CHANGE `created_at` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE `leads` CHANGE `id_user` `id_user` INT(11) NULL;
+ALTER TABLE `leads` CHANGE `lash_hist_id` `last_event_id` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `leads` ADD `created_by` INT NOT NULL AFTER `closed_at`;
+
+CREATE TABLE `lead_events` (`id` INT NOT NULL AUTO_INCREMENT , `id_lead` INT NOT NULL , `id_user` INT NOT NULL , `alias` VARCHAR(16) NOT NULL , `show_at` DATETIME NULL , `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , `reject_reason` INT NULL , `data` JSON NULL , PRIMARY KEY (`id`), INDEX (`id_lead`)) ENGINE = InnoDB;

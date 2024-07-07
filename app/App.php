@@ -76,7 +76,7 @@ class App
         return ['result' => 'success', 'data' => $data];
     }
 
-    protected function db_q($query): array
+    protected function db_q($query, $with_lid = false): array
     {
         try {
             $r = $this->db->query($query);
@@ -95,6 +95,10 @@ class App
         }
         else
         {
+            if($with_lid)
+            {
+                return ['result' => 'success', 'lid' => $this->db->insert_id];
+            }
             return ['result' => 'success'];
         }
 

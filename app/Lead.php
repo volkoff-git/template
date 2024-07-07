@@ -14,6 +14,8 @@ class Lead extends App
      * phone*
      * stage def: selling
      * source def: 1
+     * created_by: 2 (crm)
+     * show_at def: now
      */
     public function add($params): array
     {
@@ -26,10 +28,15 @@ class Lead extends App
 
         if(!ctype_digit($params['phone'])) {$this->e('phone not valid');}
 
+
+        $now = date('Y-m-d H:i:s');
+
         $sql_params = [
             'phone' => $params['phone'],
             'stage' => 'underwriting',
             'source' => '2',
+            'created_by' => '2',
+            'show_at' => $now
         ];
 
 
@@ -43,6 +50,16 @@ class Lead extends App
             $sql_params['source'] = $params['source'];
         }
 
+        if(isset($params['created_by']))
+        {
+            $sql_params['created_by'] = $params['created_by'];
+        }
+
+        if(isset($params['show_at']))
+        {
+            $sql_params['show_at'] = $params['show_at'];
+        }
+
         $sql_params['priority'] = LibLeads::$sources[$sql_params['source']]['priority'];
 
 
@@ -51,7 +68,7 @@ class Lead extends App
 
         $q = "INSERT INTO `leads` SET $set ;";
 
-        $r = $this->db_q($q);
+        $r = $this->db_q($q, true);
         if($r['result'] != 'success')
         {
             (new Log())->error([
@@ -60,14 +77,54 @@ class Lead extends App
                 'error' => $r['mysql_error'],
                 'sql_params' => $sql_params,
             ]);
-            $this->e('ERROR DELTA#1023');
+            return ['result' => 'error', 'error' => 'ERROR DELTA#1023'];
+        }
+        $lid = $r['lid'];
+
+
+        $event_r = $this->add_lead_event([
+            'alias' => 'new',
+            'id_lead' => $lid,
+            'id_user' => $sql_params['created_by'],
+            'show_at' => $now
+        ]);
+
+        $this->update_field($lid, 'last_event_id', $event_r['id_event']);
+
+        return ['result' => 'success', 'id_lead' => $lid];
+    }
+
+    /**
+     * alias *
+     * id_lead *
+     * id_user *
+     * show_at def:null
+     * reject_reason def:null
+     */
+    public function add_lead_event($params): array
+    {
+        $sql_params = [
+            'alias' => $params['alias'],
+            'id_lead' => $params['id_lead'],
+            'id_user' => $params['id_user'],
+            'show_at' => null
+        ];
+
+        if(isset($params['show_at']))
+        {
+            $sql_params['show_at'] = $params['show_at'];
         }
 
+        if(isset($params['data']))
+        {
+            $sql_params['data'] = json_encode($params['data'], 256);
+        }
 
-        // todo сгенерировать show_at
-        // todo сгенерировать history
-        // todo возвращать lid
+        $set =  $this->make_set_string($sql_params);
 
-        return ['result' => 'success', 'id' => 666];
+        $q = "INSERT INTO `lead_events` SET $set ;";
+        $r = $this->db_q($q, true);
+        $event_lid = $r['lid'];
+        return ['result' => 'success', 'id_event' => $event_lid];
     }
 }

@@ -63,7 +63,8 @@ class ApiModule extends App
     private function _add_lead(): void
     {
         $L = new Lead();
-        $L->add($this->rd);
+        $r = $L->add($this->rd);
+        $this->f($r, $r['result']);
     }
 
 
