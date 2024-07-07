@@ -7,3 +7,8 @@
 <!--<script src="/dist/js/tabler.esm.js"></script>-->
 
 
+<!--socket-->
+<!--<script src="/js/socket.io.min.js" defer></script>-->
+<!--<script src="/js/sse.js" defer></script>-->
+
+

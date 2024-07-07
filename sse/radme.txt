@@ -1,0 +1,23 @@
+1 Клиент передает id_user
+
+
+const socket = io('http://localhost', {
+  query: {
+    userId: '123',
+  }
+});
+
+2. пишем в clients
+
+io.on('connection', (socket) => {
+  const userId = socket.handshake.query.userId;
+});
+
+3. одно соединение на учетку
+
+4. открываем еще один роут sse_message
+
+из php curl кидаем пуш с сообщением.
+если нет активной сессии - пишем в БД (опционально)
+
+5. остальные вкладки пытаются приконнектиться раз в 10 секунд
