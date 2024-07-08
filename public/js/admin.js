@@ -68,3 +68,6 @@ let Admin = {
         App.send('/admin/toggle_user_stage', {action, user_id, stage}, msg => {})
     }
 }
+
+
+

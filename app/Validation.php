@@ -13,13 +13,13 @@ class Validation extends App
         parent::__construct();
     }
 
-    private array $available_rules = ['create_user', 'edit_user'];
+    private array $available_rules = ['create_user', 'edit_user', 'api_add_lead'];
 
     public function validate($rule, $data)
     {
 
         if(!in_array($rule, $this->available_rules)) {
-            $this->f(['no rule'], 'e');
+            $this->f(['no rule available'], 'e');
         }
 
 
@@ -30,10 +30,31 @@ class Validation extends App
                 return $this->_rule_create_user();
             case 'edit_user':
                 return $this->_rule_edit_user();
+            case 'api_add_lead':
+                return $this->_rule_api_add_lead();
             default:
                 $this->f(['no rule'], 'e');
         }
 
+    }
+
+
+    private function _rule_api_add_lead(): bool
+    {
+        if($this->lvh->required('phone'))
+        {
+            $this->lvh->max_len('phone', 10);
+            $this->lvh->min_len('phone', 10);
+            $this->lvh->valid_phone('phone');
+        }
+        if($this->lvh->isset('source'))
+        {
+            $this->lvh->int_val('source');
+        }
+
+
+
+        return $this->lvh_result();
     }
 
 

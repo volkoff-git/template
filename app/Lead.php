@@ -34,7 +34,7 @@ class Lead extends App
         $sql_params = [
             'phone' => $params['phone'],
             'stage' => 'underwriting',
-            'source' => '2',
+            'source' => '1',
             'created_by' => '2',
             'show_at' => $now
         ];

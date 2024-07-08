@@ -29,7 +29,7 @@ class ApiModule extends App
         }
         $a = '_'.$params['action'];
         if(is_callable(array($this, $a))){
-            $this->rd = $this->rd['data'];
+            $this->rd = $this->sanitise_all($this->rd['data']);
             $this->$a();
         }
         else{
@@ -62,6 +62,13 @@ class ApiModule extends App
 
     private function _add_lead(): void
     {
+        $V = new Validation();
+        $r = $V->validate('api_add_lead', $this->rd);
+        if(!$r)
+        {
+            $this->e($V->errors);
+        }
+
         $L = new Lead();
         $r = $L->add($this->rd);
         $this->f($r, $r['result']);

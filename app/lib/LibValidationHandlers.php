@@ -11,7 +11,7 @@ class LibValidationHandlers extends App
     {
         $this->payload['result'] = 'success';
         $this->data = $data;
-        $this->current_fields_titles = $this->fields_titles[$cft];
+        $this->current_fields_titles = $this->fields_titles[$cft]??[];
         parent::__construct();
     }
 
@@ -25,6 +25,11 @@ class LibValidationHandlers extends App
             return false;
         }
         return true;
+    }
+
+    public function isset($field): bool
+    {
+        return isset($this->data[$field]);
     }
 
     public function default($field, $default_value): void
@@ -77,6 +82,7 @@ class LibValidationHandlers extends App
     public function int_val($field, $min = false, $max = false): void
     {
         $title = $this->_title($field);
+
         $val = intval($this->data[$field]);
         if ($min !== false && $val < $min)
         {
@@ -106,6 +112,16 @@ class LibValidationHandlers extends App
             return false;
         }
         return true;
+    }
+
+
+    public function valid_phone($field): void
+    {
+        $phone = $this->data[$field];
+        if(!ctype_digit($phone)) {
+            $this->payload['result'] = 'error';
+            $this->payload['errors'][$field] = "Неправильный формат телефона";
+        }
     }
 
 
