@@ -127,4 +127,14 @@ class Lead extends App
         $event_lid = $r['lid'];
         return ['result' => 'success', 'id_event' => $event_lid];
     }
+
+
+
+
+//    id
+//    id_lead
+//    id_user
+//    alias
+//    text
+//    data
 }
