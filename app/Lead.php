@@ -12,7 +12,7 @@ class Lead extends App
 
     /**
      * phone*
-     * stage def: selling
+     * stage def: preparing_form
      * source def: 1
      * created_by: 2 (crm)
      * show_at def: now
@@ -33,7 +33,7 @@ class Lead extends App
 
         $sql_params = [
             'phone' => $params['phone'],
-            'stage' => 'underwriting',
+            'stage' => 'preparing_form',
             'source' => '1',
             'created_by' => '2',
             'show_at' => $now

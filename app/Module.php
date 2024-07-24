@@ -57,6 +57,27 @@ abstract class Module extends App
         ]);
     }
 
+    protected function inject($file, $type = 'css', $params = []): void
+    {
+        ob_start();
+        include($_SERVER['DOCUMENT_ROOT'].$file);
+        $f_content = ob_get_clean();
+        if($type == 'css')
+        {
+            echo  "<style>$f_content</style>";
+        }
+        if($type == 'js')
+        {
+            $script_opts = '';
+            if(isset($params['script_opts'])){
+                $script_opts = $params['script_opts'];
+            }
+            echo  "<script $script_opts>$f_content</script>";
+        }
+
+
+    }
+
     private function attach()
     {
 

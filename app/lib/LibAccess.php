@@ -10,13 +10,15 @@ class LibAccess
         'user' => ['module' => 'UserModule'],
         'lead' => ['module' => 'LeadModule'],
         'api' => ['module' => 'ApiModule'],
+        'external' => ['module' => 'ExternalModule'],
     ];
 
 
 
     static array $roles = [
-      'user' => ['title' => 'Пользователь', 'assign' => true],
+      'broker' => ['title' => 'Брокер', 'assign' => true],
       'manager' => ['title' => 'Менеджер', 'assign' => true],
       'admin' => ['title' => 'Админ', 'assign' => false],
+      'user' => ['title' => 'Сотрудник', 'assign' => false],
     ];
 }
