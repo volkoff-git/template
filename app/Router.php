@@ -42,9 +42,19 @@ class Router extends App
     {
         $Auth = new Auth();
         $result = $Auth->get_user();
+
         if($result['result'] !== 'success')
         {
-            header("Location: /auth/login");  die;
+            if($this->module == 'external')
+            {
+                header("Location: /external/login");  die;
+            }
+            else
+            {
+                header("Location: /auth/login");  die;
+            }
+
+
             //echo $result['error']; die;
         }
         $this->user = $result['user'];
@@ -55,7 +65,18 @@ class Router extends App
     private function check_access(): void
     {
 
+        // если запрос на внешний логин - ок
+        if($this->module == 'external')
+        {
+            if($this->action == 'login' || $this->action == 'performLogin')
+            {
+                return;
+            }
 
+        }
+
+        // если запрос на api - ок , своя авторизация
+        // если запрос на auth - пропускаем
         if($this->module === 'auth' || $this->module === 'api')
         {
             return;

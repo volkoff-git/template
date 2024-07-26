@@ -76,18 +76,3 @@ let App = {
     }
 }
 
-
-let Auth = {
-    login: e => {
-        e.preventDefault();
-        let params = App.getFields(['login', 'password'], 'auth_');
-        if(!params['login']){ App.toast('Логин обязателен для заполнения'); return; }
-        if(!params['password']){ App.toast('пароль обязателен для заполнения'); return; }
-        App.send('/auth/performLogin', params, msg => {
-            window.location = '/';
-        })
-    }
-}
-
-
-

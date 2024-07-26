@@ -28,3 +28,49 @@
 </div>
 
 
+<?
+
+
+
+$spot = 'inner';
+if(isset($params['spot']))
+{
+	$spot = $params['spot'];
+}
+
+
+$url = '/auth/performLogin';
+$redirect_location = '/';
+if($spot == 'external')
+{
+	$url = '/external/performLogin';
+    $redirect_location = '/external';
+}
+
+
+
+
+	?>
+
+
+<script>
+
+
+
+
+    let Auth = {
+        login: e => {
+            e.preventDefault();
+            let params = App.getFields(['login', 'password'], 'auth_');
+            if(!params['login']){ App.toast('Логин обязателен для заполнения'); return; }
+            if(!params['password']){ App.toast('пароль обязателен для заполнения'); return; }
+            App.send('<?=$url; ?>', params, msg => {
+                window.location = '<?=$redirect_location; ?>';
+            })
+        }
+    }
+
+
+
+
+</script>

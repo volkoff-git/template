@@ -20,6 +20,7 @@ abstract class Module extends App
 
         if(in_array($this->action, $this->allowed_actions))
         {
+
             if(is_callable(array($this, $action))){
                 $this->$action($param);
             }
