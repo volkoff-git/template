@@ -10,10 +10,19 @@
                     </li>
 
 					<? if($this->user['role'] === 'admin'): ?>
+					<li class="nav-item">
 						<a class="nav-link" href="/admin" >
                             <?=LibIcons::i('gear', 'nav-link-icon');?><span class="nav-link-title">Админка</span>
 						</a>
+					</li>
+
 					<? endif; ?>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/external" >
+                            <?=LibIcons::i('gear', 'nav-link-icon');?><span class="nav-link-title">Внешний интерфейс</span>
+						</a>
+					</li>
 
 
                     <li class="nav-item dropdown d-none">

@@ -7,7 +7,7 @@
 <div class="page">
 
     <? require_once '_includes/navbar_top.php'; ?>
-    <? require_once '_includes/navbar_bottom.php'; ?>
+<!--    --><?// require_once '_includes/navbar_bottom.php'; ?>
 
 	<div class="page-wrapper">
 
