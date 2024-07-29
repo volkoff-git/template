@@ -5,7 +5,7 @@
 <body >
 
 <div class="page">
-
+	<? $sticky_top = true; ?>
     <? require_once '_includes/navbar_top.php'; ?>
 <!--    --><?// require_once '_includes/navbar_bottom.php'; ?>
 
@@ -58,7 +58,7 @@
 </div>
 
 <? require_once '_includes/bottom_scripts_external.php'; ?>
-<?=$params['attach_js'] ?>
+
 
 
 </body>

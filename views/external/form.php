@@ -33,6 +33,9 @@
 </div>
 
 
+<div class="" style="margin-bottom: 1000px"></div>
+
+
 <div class="card mb-4">
 	<div class="ribbon bg-green">заполнено</div>
 	<div class="card-body">

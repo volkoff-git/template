@@ -10,6 +10,13 @@ class LeadModule extends Module
 
     protected function index($param): void
     {
-        $this->renderPage('lead.index_view', ['title' => 'Лиды в работу']);
+
+
+        $this->renderPage('lead.index_view', [
+            'title' => 'Лиды в работу'
+        ]);
     }
+
+
+
 }
